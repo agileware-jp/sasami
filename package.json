@@ -30,5 +30,15 @@
     "eslint-plugin-prettier": "^5.2.3",
     "prettier": "^3.5.3",
     "typescript": "^5.8.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "npm run lint-fix"
+    ]
   }
 }
