@@ -16,7 +16,8 @@
   "description": "",
   "dependencies": {
     "@slack/bolt": "^4.2.1",
-    "dotenv": "^16.4.7"
+    "dotenv": "^16.4.7",
+    "husky": "^9.1.7"
   },
   "devDependencies": {
     "@types/eslint": "^9.6.1",
