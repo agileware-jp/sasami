@@ -6,7 +6,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run build && npm run serve",
     "build": "npx tsc",
-    "serve": "node --require dotenv/config dist/app.js"
+    "serve": "node --require dotenv/config dist/app.js",
+    "lint": "eslint --fix 'src/**/*.{js,ts}'",
+    "lint-fix": "eslint --fix './src/*.{js,ts}' && prettier --write './src/*.{js,ts}'"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +25,7 @@
     "@typescript-eslint/parser": "^8.26.0",
     "eslint": "^9.21.0",
     "eslint-config-prettier": "^10.0.2",
+    "eslint-plugin-jsdoc": "^50.6.3",
     "eslint-plugin-prettier": "^5.2.3",
     "prettier": "^3.5.3",
     "typescript": "^5.8.2"
