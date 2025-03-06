@@ -8,7 +8,8 @@
     "build": "npx tsc",
     "serve": "node --require dotenv/config dist/app.js",
     "lint": "eslint --fix 'src/**/*.{js,ts}'",
-    "lint-fix": "eslint --fix './src/*.{js,ts}' && prettier --write './src/*.{js,ts}'"
+    "lint-fix": "eslint --fix './src/*.{js,ts}' && prettier --write './src/*.{js,ts}'",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
@@ -28,6 +29,7 @@
     "eslint-config-prettier": "^10.0.2",
     "eslint-plugin-jsdoc": "^50.6.3",
     "eslint-plugin-prettier": "^5.2.3",
+    "lint-staged": "^15.4.3",
     "prettier": "^3.5.3",
     "typescript": "^5.8.2"
   },
