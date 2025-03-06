@@ -6,7 +6,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run build && npm run serve",
     "build": "npx tsc",
-    "serve": "node --require dotenv/config dist/app.js"
+    "serve": "node --require dotenv/config dist/app.js",
+    "lint": "eslint --fix 'src/**/*.{js,ts}'",
+    "lint-fix": "eslint --fix './src/*.{js,ts}' && prettier --write './src/*.{js,ts}'",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
@@ -14,7 +17,8 @@
   "description": "",
   "dependencies": {
     "@slack/bolt": "^4.2.1",
-    "dotenv": "^16.4.7"
+    "dotenv": "^16.4.7",
+    "husky": "^9.1.7"
   },
   "devDependencies": {
     "@types/eslint": "^9.6.1",
@@ -23,8 +27,20 @@
     "@typescript-eslint/parser": "^8.26.0",
     "eslint": "^9.21.0",
     "eslint-config-prettier": "^10.0.2",
+    "eslint-plugin-jsdoc": "^50.6.3",
     "eslint-plugin-prettier": "^5.2.3",
+    "lint-staged": "^15.4.3",
     "prettier": "^3.5.3",
     "typescript": "^5.8.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "npm run lint-fix"
+    ]
   }
 }
