@@ -136,7 +136,7 @@ app.command("/kincone", async ({ command, ack, client }) => {
             block_id: "expenses",
             label: {
               type: "plain_text",
-              text: "交通費",
+              text: "交通費（半角で入力してください）",
             },
             element: {
               type: "plain_text_input",
@@ -163,8 +163,9 @@ app.view("kincone_form", async ({ ack, body, view, client }) => {
   await ack();
 
   // formで送信した内容の取得
-  const date = view.state.values.date_block?.['use-date']?.selected_date;
-  const translation = view.state.values.translation?.transportation_select?.selected_option.value;
+  const date = view.state.values.date_block?.["use-date"]?.selected_date;
+  const translation =
+    view.state.values.translation?.transportation_select?.selected_option.value;
   const inStation = view.state.values.in_station?.in_station?.value;
   const outStation = view.state.values.out_station?.out_station?.value;
   const remarks = view.state.values.remarks?.remarks?.value;
@@ -173,9 +174,25 @@ app.view("kincone_form", async ({ ack, body, view, client }) => {
   const userInfo = await client.users.profile.get({ user: body.user.id });
   const email = userInfo.profile?.email;
 
-  // sendExpenses();
+  await sendExpenses({
+    email,
+    date,
+    expenses,
+    inStation,
+    outStation,
+    translation_type: translation,
+    description: remarks,
+  });
 
-  console.log("Kincone Form Submitted:", { date, translation, inStation, outStation, remarks, expenses, email });
+  console.log("Kincone Form Submitted:", {
+    date,
+    translation,
+    inStation,
+    outStation,
+    remarks,
+    expenses,
+    email,
+  });
 
   // sasami botに内容を返信
   //   try {

@@ -1,36 +1,65 @@
 import axios from "axios";
+import dotenv from "dotenv";
+dotenv.config();
+
+const wrapperSendExpenses = (email: string, inputText: string) => {
+  const [
+    date,
+    translation_type,
+    inStation,
+    outStation,
+    expenses,
+    description = undefined, // descriptionがない場合はundefined
+  ] = separateText(inputText);
+
+  sendExpenses({
+    email,
+    date,
+    translation_type,
+    expenses,
+    inStation,
+    outStation,
+    description,
+  });
+};
 
 interface sendExpensesProps {
   email: string;
   date: string;
-  expense: string;
+  expenses: string;
   inStation: string;
   outStation: string;
-  isReturn: boolean;
+  translation_type: string;
+  description?: string;
+  //   isReturn: boolean; // 出社したときに帰りの分も登録する
 }
 
-const sendExpenses = ({
+const sendExpenses = async ({
   email,
   date,
-  expense,
+  expenses,
   inStation,
   outStation,
-  isReturn,
+  translation_type,
+  description,
+  //   isReturn,
 }: sendExpensesProps) => {
+  console.log("ここまで来ている");
   const data = {
-    email: "kondo.daisuke@agileware.jp",
-    date: "2025-03-05",
-    expense: 3000,
-    type: 1,
-    in: "天王寺",
-    out: "天満橋",
+    email,
+    date,
+    expense: Number(expenses),
+    type: Number(translation_type),
+    in: inStation,
+    out: outStation,
+    note: description,
   };
 
   // APIエンドポイントとヘッダー情報
   const url = "https://api.kincone.com/v1/expense";
   const headers = {
     Accept: "application/json",
-    Authorization: "Bearer BZa5Zmyz4iPhFNSFn6i6GQb7VxHCjkoK",
+    Authorization: `Bearer ${process.env.KINCONE_TOKEN}`,
     "Content-Type": "application/json",
   };
 
@@ -46,6 +75,34 @@ const sendExpenses = ({
         error.response ? error.response.data : error.message
       );
     });
+};
+
+const separateText = (inputText: string) => {
+  const separatedText = inputText.split("_");
+  // 訪問先/備考がない場合
+  if (separatedText.length === 5) {
+    const [date, translation_type, inStation, outStation, expense] =
+      separatedText;
+    return [date, translation_type, inStation, outStation, expense];
+  } else if (separatedText.length === 6) {
+    // 訪問先/備考がある場合
+    const [
+      date,
+      translation_type,
+      inStation,
+      outStation,
+      expense,
+      description,
+    ] = separatedText;
+    return [
+      date,
+      translation_type,
+      inStation,
+      outStation,
+      expense,
+      description,
+    ];
+  }
 };
 
 export default sendExpenses;
