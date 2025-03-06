@@ -44,7 +44,6 @@ const sendExpenses = async ({
     description,
     //   isReturn,
 }: sendExpensesProps) => {
-    console.log("ここまで来ている");
     const data = {
         email,
         date,
