@@ -1,5 +1,6 @@
 import globals from "globals"
 import jsdoc from "eslint-plugin-jsdoc"
+import typeScriptESLintParser from '@typescript-eslint/parser';
 
 export default [
 	{
@@ -12,6 +13,7 @@ export default [
 				...globals.node
 			},
 			// eslintrc の parserOptions と同じです。
+			parser: typeScriptESLintParser,
 			parserOptions: {
 				ecmaVersion: "latest"
 			},
