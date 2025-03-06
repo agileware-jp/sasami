@@ -82,14 +82,14 @@ app.command("/kincone", async ({ command, ack, client }) => {
           // 入場駅
           {
             type: "input",
-            block_id: "in_stateion",
+            block_id: "in_station",
             label: {
               type: "plain_text",
               text: "入場駅",
             },
             element: {
               type: "plain_text_input",
-              action_id: "in_staion",
+              action_id: "in_station",
               placeholder: {
                 type: "plain_text",
                 text: "入場駅",
@@ -163,15 +163,19 @@ app.view("kincone_form", async ({ ack, body, view, client }) => {
   await ack();
 
   // formで送信した内容の取得
-  const reason = view.state.values.reason_block.reason.value;
-  const date = view.state.values.date_block.date_picker.selected_date;
+  const date = view.state.values.date_block?.['use-date']?.selected_date;
+  const translation = view.state.values.translation?.transportation_select?.selected_option.value;
+  const inStation = view.state.values.in_station?.in_station?.value;
+  const outStation = view.state.values.out_station?.out_station?.value;
+  const remarks = view.state.values.remarks?.remarks?.value;
+  const expenses = view.state.values.expenses?.expenses?.value;
 
   const userInfo = await client.users.profile.get({ user: body.user.id });
   const email = userInfo.profile?.email;
 
   // sendExpenses();
 
-  console.log("Kincone Form Submitted:", { reason, date, email });
+  console.log("Kincone Form Submitted:", { date, translation, inStation, outStation, remarks, expenses, email });
 
   // sasami botに内容を返信
   //   try {
