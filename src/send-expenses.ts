@@ -62,14 +62,13 @@ const sendExpenses = async ({
         "Content-Type": "application/json",
     };
 
-    // `POST` リクエストを送信
     axios
         .post(url, data, { headers })
         .then((response) => {
             console.log("✅ 成功:", response.data);
         })
         .catch((error) => {
-            console.error("❌ エラー:", error.response ? error.response.data : error.message);
+            console.error("❌ エラー:", error.response?.data ?? error.message);
         });
 };
 
