@@ -8,7 +8,7 @@ const wrapperSendExpenses = (email: string, inputText: string) => {
         translation_type,
         inStation,
         outStation,
-        expenses,
+        expense,
         description = undefined, // descriptionがない場合はundefined
     ] = separateText(inputText);
 
@@ -16,7 +16,7 @@ const wrapperSendExpenses = (email: string, inputText: string) => {
         email,
         date,
         translation_type,
-        expenses,
+        expense,
         inStation,
         outStation,
         description,
@@ -26,7 +26,7 @@ const wrapperSendExpenses = (email: string, inputText: string) => {
 interface sendExpensesProps {
     email: string;
     date: string;
-    expenses: string;
+    expense: string;
     inStation: string;
     outStation: string;
     translation_type: string;
@@ -37,7 +37,7 @@ interface sendExpensesProps {
 const sendExpenses = async ({
     email,
     date,
-    expenses,
+    expense,
     inStation,
     outStation,
     translation_type,
@@ -48,7 +48,7 @@ const sendExpenses = async ({
     const data = {
         email,
         date,
-        expense: Number(expenses),
+        expense: Number(expense),
         type: Number(translation_type),
         in: inStation,
         out: outStation,
@@ -78,12 +78,10 @@ const separateText = (inputText: string) => {
     const separatedText = inputText.split("_");
     // 訪問先/備考がない場合
     if (separatedText.length === 5) {
-        const [date, translation_type, inStation, outStation, expense] = separatedText;
-        return [date, translation_type, inStation, outStation, expense];
+        return [...separatedText, ""];
     } else if (separatedText.length === 6) {
         // 訪問先/備考がある場合
-        const [date, translation_type, inStation, outStation, expense, description] = separatedText;
-        return [date, translation_type, inStation, outStation, expense, description];
+        return separatedText;
     }
 };
 

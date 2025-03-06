@@ -133,14 +133,14 @@ app.command("/kincone", async ({ command, ack, client }) => {
                     // 交通費
                     {
                         type: "input",
-                        block_id: "expenses",
+                        block_id: "expense",
                         label: {
                             type: "plain_text",
                             text: "交通費（半角で入力してください）",
                         },
                         element: {
                             type: "plain_text_input",
-                            action_id: "expenses",
+                            action_id: "expense",
                             placeholder: {
                                 type: "plain_text",
                                 text: "交通費",
@@ -168,7 +168,7 @@ app.view("kincone_form", async ({ ack, body, view, client }) => {
     const inStation = view.state.values.in_station?.in_station?.value;
     const outStation = view.state.values.out_station?.out_station?.value;
     const remarks = view.state.values.remarks?.remarks?.value;
-    const expenses = view.state.values.expenses?.expenses?.value;
+    const expense = view.state.values.expense?.expense?.value;
 
     const userInfo = await client.users.profile.get({ user: body.user.id });
     const email = userInfo.profile?.email;
@@ -176,21 +176,11 @@ app.view("kincone_form", async ({ ack, body, view, client }) => {
     await sendExpenses({
         email,
         date,
-        expenses,
+        expense,
         inStation,
         outStation,
         translation_type: translation,
         description: remarks,
-    });
-
-    console.log("Kincone Form Submitted:", {
-        date,
-        translation,
-        inStation,
-        outStation,
-        remarks,
-        expenses,
-        email,
     });
 
     // sasami botに内容を返信
