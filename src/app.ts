@@ -168,10 +168,14 @@ app.view("kincone_form", async ({ ack, body, view, client }) => {
     const inStation = view.state.values.in_station?.in_station?.value;
     const outStation = view.state.values.out_station?.out_station?.value;
     const remarks = view.state.values.remarks?.remarks?.value;
-    const expense = view.state.values.expense?.expense?.value;
+    const expenses = view.state.values.expenses?.expenses?.value;
+
+    const translationLabel = view.state.values.translation?.transportation_select?.selected_option.text.text;
 
     const userInfo = await client.users.profile.get({ user: body.user.id });
     const email = userInfo.profile?.email;
+
+    const url_fare = "https://kincone.com/fare";
 
     await sendExpenses({
         email,
@@ -183,17 +187,35 @@ app.view("kincone_form", async ({ ack, body, view, client }) => {
         description: remarks,
     });
 
+    console.log("Kincone Form Submitted:", {
+        date,
+        translation,
+        translationLabel,
+        inStation,
+        outStation,
+        remarks,
+        expenses,
+        email,
+    });
+
     // sasami botに内容を返信
-    //   try {
-    //     await client.chat.postMessage({
-    //       channel: body.user.id,
-    //       text: `Your Kincone request:
-    //       - Reason: ${reason}
-    //       - Date: ${date}`
-    //     });
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
+    try {
+        await client.chat.postMessage({
+            channel: body.user.id,
+            text: `Your Kincone request:
+        - Date: ${date}
+        - Translation: ${translationLabel}
+        - In Station: ${inStation}
+        - Out Station: ${outStation}
+        - Remarks: ${remarks}
+        - Expenses: ${expenses}
+        - URL: ${url_fare}`,
+        });
+        console.log("メッセージを返信しました");
+    } catch (error) {
+        console.error(error);
+        console.log("エラーが発生しました");
+    }
 });
 
 (async () => {
