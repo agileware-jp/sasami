@@ -35,7 +35,7 @@ app.view("kincone_form", async ({ ack, body, view, client }) => {
     const inStation = stateValues.in_station?.in_station?.value;
     const outStation = stateValues.out_station?.out_station?.value;
     const remarks = stateValues.remarks?.remarks?.value;
-    const expense = stateValues.expenses?.expenses?.value;
+    const expense = stateValues.expense?.expense?.value;
     const translationLabel = stateValues.translation?.transportation_select?.selected_option.text.text;
 
     const userInfo = await client.users.profile.get({ user: body.user.id });
