@@ -1,51 +1,86 @@
 import axios from "axios";
+import dotenv from "dotenv";
+dotenv.config();
+
+const wrapperSendExpenses = (email: string, inputText: string) => {
+    const [
+        date,
+        translation_type,
+        inStation,
+        outStation,
+        expense,
+        description = undefined, // descriptionがない場合はundefined
+    ] = separateText(inputText);
+
+    sendExpenses({
+        email,
+        date,
+        translation_type,
+        expense,
+        inStation,
+        outStation,
+        description,
+    });
+};
 
 interface sendExpensesProps {
-  email: string;
-  date: string;
-  expense: string;
-  inStation: string;
-  outStation: string;
-  isReturn: boolean;
+    email: string;
+    date: string;
+    expense: string;
+    inStation: string;
+    outStation: string;
+    translation_type: string;
+    description?: string;
+    //   isReturn: boolean; // 出社したときに帰りの分も登録する
 }
 
-const sendExpenses = ({
-  email,
-  date,
-  expense,
-  inStation,
-  outStation,
-  isReturn,
+const sendExpenses = async ({
+    email,
+    date,
+    expense,
+    inStation,
+    outStation,
+    translation_type,
+    description,
+    //   isReturn,
 }: sendExpensesProps) => {
-  const data = {
-    email: "kondo.daisuke@agileware.jp",
-    date: "2025-03-05",
-    expense: 3000,
-    type: 1,
-    in: "天王寺",
-    out: "天満橋",
-  };
+    const data = {
+        email,
+        date,
+        expense: Number(expense),
+        type: Number(translation_type),
+        in: inStation,
+        out: outStation,
+        note: description,
+    };
 
-  // APIエンドポイントとヘッダー情報
-  const url = "https://api.kincone.com/v1/expense";
-  const headers = {
-    Accept: "application/json",
-    Authorization: "Bearer BZa5Zmyz4iPhFNSFn6i6GQb7VxHCjkoK",
-    "Content-Type": "application/json",
-  };
+    // APIエンドポイントとヘッダー情報
+    const url = "https://api.kincone.com/v1/expense";
+    const headers = {
+        Accept: "application/json",
+        Authorization: `Bearer ${process.env.KINCONE_TOKEN}`,
+        "Content-Type": "application/json",
+    };
 
-  // `POST` リクエストを送信
-  axios
-    .post(url, data, { headers })
-    .then((response) => {
-      console.log("✅ 成功:", response.data);
-    })
-    .catch((error) => {
-      console.error(
-        "❌ エラー:",
-        error.response ? error.response.data : error.message
-      );
-    });
+    axios
+        .post(url, data, { headers })
+        .then((response) => {
+            console.log("✅ 成功:", response.data);
+        })
+        .catch((error) => {
+            console.error("❌ エラー:", error.response?.data ?? error.message);
+        });
+};
+
+const separateText = (inputText: string) => {
+    const separatedText = inputText.split("_");
+    // 訪問先/備考がない場合
+    if (separatedText.length === 5) {
+        return [...separatedText, ""];
+    } else if (separatedText.length === 6) {
+        // 訪問先/備考がある場合
+        return separatedText;
+    }
 };
 
 export default sendExpenses;
