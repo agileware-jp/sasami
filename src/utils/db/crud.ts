@@ -33,7 +33,7 @@ main()
     });
 
 
-async function create_expense(email: string, inStation: string, outStation: string, type: number, note: string, expense: number) {
+export async function create_expense(email: string, inStation: string, outStation: string, type: number, note: string, expense: number) {
     try {
         const newExpense = await prisma.kinconeExpense.create({
             data: {
@@ -57,7 +57,7 @@ async function create_expense(email: string, inStation: string, outStation: stri
  * 引数のメールアドレスと一致する支出のうち、最新のものを返す
  * @param email 検索対象のメールアドレス
  */
-async function get_expense_by_email(email: string) {
+export async function get_expense_by_email(email: string) {
     try {
         const latestKinconeExpense = await prisma.kinconeExpense.findFirst({
             where: {
