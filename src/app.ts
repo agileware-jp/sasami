@@ -25,7 +25,6 @@ app.command("/kincone", async ({ command, ack, client }) => {
         const userInfo = await client.users.profile.get({ user: command.user_id });
         const email = userInfo.profile?.email;
         await client.views.open(await getViewsOpenArguments(command.trigger_id, email));
-
     } catch (error) {
         console.error(error);
     }
@@ -54,9 +53,9 @@ app.view("kincone_form", async ({ ack, body, view, client }) => {
     } catch (error) {
         await client.chat.postMessage({
             channel: body.user.id,
-            text: "交通費は *半角数字* で入力してください"
+            text: "交通費は *半角数字* で入力してください",
         });
-        return 
+        return;
     }
 
     const res = await sendExpenses({
@@ -86,10 +85,10 @@ app.view("kincone_form", async ({ ack, body, view, client }) => {
         await createExpense({
             email,
             inStation,
-            outStation, 
+            outStation,
             type: Number(translation),
             note: remarks,
-            expense: Number(expense)
+            expense: Number(expense),
         });
         // sasami botに内容を返信
         try {
@@ -107,8 +106,7 @@ app.view("kincone_form", async ({ ack, body, view, client }) => {
         } catch (error) {
             console.error(error);
         }
-    }
-    else {
+    } else {
         try {
             await client.chat.postMessage({
                 channel: body.user.id,

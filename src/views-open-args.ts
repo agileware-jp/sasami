@@ -7,7 +7,7 @@ import { transportationOptionsMap } from "./utils/db/transpotationOptionsMap";
  * @param triggerId コマンドのトリガーID
  * @returns 情報を格納した構造体
  */
-export const getViewsOpenArguments = async(triggerId: string, email: string) => {
+export const getViewsOpenArguments = async (triggerId: string, email: string) => {
     const data = await getExpenseByEmail(email);
     return {
         trigger_id: triggerId,
@@ -68,7 +68,10 @@ export const getViewsOpenArguments = async(triggerId: string, email: string) => 
                             { text: { type: "plain_text", text: "その他" }, value: "8" },
                             { text: { type: "plain_text", text: "物販" }, value: "0" },
                         ],
-                        initial_option: {text: {type: "plain_text", text: transportationOptionsMap[data?.type.toString()]}, value: data?.type.toString()}
+                        initial_option: {
+                            text: { type: "plain_text", text: transportationOptionsMap[data?.type.toString()] },
+                            value: data?.type.toString(),
+                        },
                     },
                 },
                 // 入場駅
