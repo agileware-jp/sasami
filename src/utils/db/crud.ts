@@ -9,17 +9,10 @@ export async function createExpense(kinkoneExpense: KinconeExpense) {
     try {
         const newExpense = await prisma.kinconeExpense.create({
             data: {
-                email: email,
-                usageDate: new Date(),
-                departureLocation: inStation,
-                targetLocation: outStation,
-                type: type,
-                note: note,
-                expense: expense,
                 email: kinkoneExpense.email,
-                date: new Date(),
-                in: kinkoneExpense.inStation,
-                out: kinkoneExpense.outStation,
+                usageDate: new Date(),
+                departureLocation: kinkoneExpense.inStation,
+                targetLocation: kinkoneExpense.outStation,
                 type: kinkoneExpense.type,
                 note: kinkoneExpense.note,
                 expense: kinkoneExpense.expense,
