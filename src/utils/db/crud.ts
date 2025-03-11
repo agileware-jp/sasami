@@ -1,13 +1,20 @@
 import prisma from "./prisma";
 
-export async function createExpense(email: string, inStation: string, outStation: string, type: number, note: string, expense: number) {
+export async function createExpense(
+    email: string,
+    inStation: string,
+    outStation: string,
+    type: number,
+    note: string,
+    expense: number,
+) {
     try {
         const newExpense = await prisma.kinconeExpense.create({
             data: {
                 email: email,
-                date: new Date(),
-                in: inStation,
-                out: outStation,
+                usageDate: new Date(),
+                departureLocation: inStation,
+                targetLocation: outStation,
                 type: type,
                 note: note,
                 expense: expense,
@@ -19,7 +26,6 @@ export async function createExpense(email: string, inStation: string, outStation
     }
 }
 
-
 /**
  * 引数のメールアドレスと一致する支出のうち、最新のものを返す
  * @param email 検索対象のメールアドレス
@@ -28,10 +34,10 @@ export async function getExpenseByEmail(email: string) {
     try {
         const latestKinconeExpense = await prisma.kinconeExpense.findFirst({
             where: {
-              email: email,
+                email: email,
             },
             orderBy: {
-              timeStamp: 'desc',
+                createdAt: "desc",
             },
         });
         return latestKinconeExpense;
