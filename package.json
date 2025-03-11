@@ -16,6 +16,7 @@
     "license": "ISC",
     "description": "",
     "dependencies": {
+        "@prisma/client": "^6.4.1",
         "@slack/bolt": "^4.2.1",
         "@slack/web-api": "^7.8.0",
         "axios": "^1.8.1",
