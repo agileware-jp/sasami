@@ -71,8 +71,8 @@ const sendExpenses = async ({
             success: false,
             error: error.response ? error.response.data : error.message,
         };
-    };
-}
+    }
+};
 
 const separateText = (inputText: string) => {
     const separatedText = inputText.split("_");
