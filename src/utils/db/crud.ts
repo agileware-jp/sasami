@@ -1,8 +1,5 @@
 import prisma from "./prisma";
 
-
-
-
 export async function create_expense(email: string, inStation: string, outStation: string, type: number, note: string, expense: number) {
     try {
         const newExpense = await prisma.kinconeExpense.create({
