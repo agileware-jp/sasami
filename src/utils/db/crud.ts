@@ -1,36 +1,6 @@
 import prisma from "./prisma";
 
 
-async function main() {
-    const newExpense = await prisma.kinconeExpense.create({
-        data: {
-            email: 'test@example.com',
-            date: new Date(),
-            in: '天満橋駅',
-            out: '東梅田駅',
-            type: 1,
-            note: 'test',
-            expense: 300,
-        },
-    });
-    const latestKinconeExpense = await prisma.kinconeExpense.findFirst({
-        where: {
-          email: 'test@example.com',
-        },
-        orderBy: {
-          timeStamp: 'desc',
-        },
-    });
-    console.log(latestKinconeExpense);
-}
-main()
-    .catch((e) => {
-        console.error(e);
-        process.exit(1);
-    })
-    .finally(async () => {
-        await prisma.$disconnect();
-    });
 
 
 export async function create_expense(email: string, inStation: string, outStation: string, type: number, note: string, expense: number) {
