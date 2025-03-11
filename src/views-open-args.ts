@@ -1,11 +1,14 @@
 import { ViewsOpenArguments } from "@slack/web-api/dist";
+import { getExpenseByEmail } from "./utils/db/crud";
+import { transportationOptionsMap } from "./utils/db/transpotationOptionsMap";
 
 /**
  * viewのopenに必要な情報を取得する関数
  * @param triggerId コマンドのトリガーID
  * @returns 情報を格納した構造体
  */
-export const getViewsOpenArguments = (triggerId: string) => {
+export const getViewsOpenArguments = async(triggerId: string, email: string) => {
+    const data = await getExpenseByEmail(email);
     return {
         trigger_id: triggerId,
         view: {
@@ -65,6 +68,7 @@ export const getViewsOpenArguments = (triggerId: string) => {
                             { text: { type: "plain_text", text: "その他" }, value: "8" },
                             { text: { type: "plain_text", text: "物販" }, value: "0" },
                         ],
+                        initial_option: {text: {type: "plain_text", text: transportationOptionsMap[data?.type.toString()]}, value: data?.type.toString()}
                     },
                 },
                 // 入場駅
@@ -78,6 +82,7 @@ export const getViewsOpenArguments = (triggerId: string) => {
                     element: {
                         type: "plain_text_input",
                         action_id: "in_station",
+                        initial_value: data?.in,
                         placeholder: {
                             type: "plain_text",
                             text: "入場駅",
@@ -95,6 +100,7 @@ export const getViewsOpenArguments = (triggerId: string) => {
                     element: {
                         type: "plain_text_input",
                         action_id: "out_station",
+                        initial_value: data?.out,
                         placeholder: {
                             type: "plain_text",
                             text: "出場駅",
@@ -112,6 +118,7 @@ export const getViewsOpenArguments = (triggerId: string) => {
                     element: {
                         type: "plain_text_input",
                         action_id: "remarks",
+                        initial_value: data?.note,
                         placeholder: {
                             type: "plain_text",
                             text: "訪問先/備考",
@@ -129,6 +136,7 @@ export const getViewsOpenArguments = (triggerId: string) => {
                     element: {
                         type: "plain_text_input",
                         action_id: "expense",
+                        initial_value: String(data?.expense),
                         placeholder: {
                             type: "plain_text",
                             text: "交通費",
