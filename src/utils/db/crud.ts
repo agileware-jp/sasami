@@ -1,16 +1,22 @@
+import { KinconeExpense } from "kinconeExpense";
 import prisma from "./prisma";
 
-export async function createExpense(email: string, inStation: string, outStation: string, type: number, note: string, expense: number) {
+
+/**
+ * 引数の情報にしたがって交通費情報をキンコンへポストする関数
+ * @param kinkoneExpense 登録する交通費情報
+ */
+export async function createExpense(kinkoneExpense: KinconeExpense) {
     try {
         const newExpense = await prisma.kinconeExpense.create({
             data: {
-                email: email,
+                email: kinkoneExpense.email,
                 date: new Date(),
-                in: inStation,
-                out: outStation,
-                type: type,
-                note: note,
-                expense: expense,
+                in: kinkoneExpense.inStation,
+                out: kinkoneExpense.outStation,
+                type: kinkoneExpense.type,
+                note: kinkoneExpense.note,
+                expense: kinkoneExpense.expense,
             },
         });
     } catch (error) {

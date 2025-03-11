@@ -83,7 +83,14 @@ app.view("kincone_form", async ({ ack, body, view, client }) => {
     */
 
     if (res.success) {
-        await createExpense(email, inStation, outStation, Number(translation), remarks, Number(expense));
+        await createExpense({
+            email,
+            inStation,
+            outStation, 
+            type: Number(translation),
+            note: remarks,
+            expense: Number(expense)
+        });
         // sasami botに内容を返信
         try {
             await client.chat.postMessage({
