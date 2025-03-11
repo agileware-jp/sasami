@@ -8,6 +8,7 @@ import { transportationOptionsMap } from "./utils/db/transpotationOptionsMap";
  * @returns 情報を格納した構造体
  */
 export const getViewsOpenArguments = async (triggerId: string, email: string) => {
+export const getViewsOpenArguments = async (triggerId: string, email: string) => {
     const data = await getExpenseByEmail(email);
     const transportationOption = data?.type.toString() ?? "1";
     return {
