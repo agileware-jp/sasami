@@ -2,6 +2,7 @@ import { App } from "@slack/bolt";
 import dotenv from "dotenv";
 import sendExpenses from "./send-expenses";
 import { getViewsOpenArguments } from "./views-open-args";
+import { create_expense } from "./utils/db/crud";
 
 dotenv.config();
 
@@ -43,7 +44,7 @@ app.view("kincone_form", async ({ ack, body, view, client }) => {
 
     const urlFare = "https://kincone.com/fare";
 
-    await sendExpenses({
+    const res = await sendExpenses({
         email,
         date,
         expense,
@@ -53,6 +54,7 @@ app.view("kincone_form", async ({ ack, body, view, client }) => {
         description: remarks,
     });
 
+    /*
     console.log("Kincone Form Submitted:", {
         date,
         translation,
@@ -63,6 +65,12 @@ app.view("kincone_form", async ({ ack, body, view, client }) => {
         expense,
         email,
     });
+    */
+
+
+    
+    await create_expense(email, inStation, outStation, Number(translation), remarks, Number(expense))
+
 
     // sasami botに内容を返信
     try {
