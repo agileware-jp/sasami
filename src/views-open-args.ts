@@ -21,21 +21,21 @@ export type dataType = {
 };
 
 export const getViewsOpenArguments = async (email: string, data: dataType | null) => {
-    const history: dataType[] = await getHistories(email, data.id);
-    const historyOptions =
-        history?.map((entry) => ({
-            text: {
-                type: "plain_text",
-                text: `${entry.usageDate.toISOString().slice(0, 10)} - ${entry.departureLocation} → ${entry.targetLocation}`,
-            },
-            value: String(entry.id),
-        })) ?? [];
+    const history: dataType[] = await getHistories(email, 10);
 
     let blocks: any[] = [];
     const transportationOption = data?.type.toString() ?? "1";
 
     // 履歴選択セクション（履歴がある場合のみ追加）
-    if (historyOptions.length > 0) {
+    if (history.length > 0) {
+        const historyOptions =
+            history?.map((entry) => ({
+                text: {
+                    type: "plain_text",
+                    text: `${entry.usageDate.toISOString().slice(0, 10)} - ${entry.departureLocation} → ${entry.targetLocation}`,
+                },
+                value: String(entry.id),
+            })) ?? [];
         blocks.push({
             type: "input",
             block_id: "history_block",
