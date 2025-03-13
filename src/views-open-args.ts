@@ -1,7 +1,6 @@
 import { ViewsOpenArguments } from "@slack/web-api/dist";
-import { getExpenseByEmail } from "./utils/db/crud";
+import { getExpenseByEmail, getHistories } from "./utils/db/crud";
 import { transportationOptionsMap } from "./utils/db/transpotationOptionsMap";
-import { getHistory } from "./utils/db/getHistory";
 
 /**
  * viewのopenに必要な情報を取得する関数
@@ -22,7 +21,7 @@ export type dataType = {
 };
 
 export const getViewsOpenArguments = async (email: string, data: dataType | null) => {
-    const history: dataType[] = getHistory();
+    const history: dataType[] = await getHistories(email, data.id);
     const historyOptions =
         history?.map((entry) => ({
             text: {
@@ -48,6 +47,7 @@ export const getViewsOpenArguments = async (email: string, data: dataType | null
                 placeholder: { type: "plain_text", text: "過去の履歴を選択" },
                 options: historyOptions,
             },
+            optional: true,
         });
 
         // ここでは actions ブロックを使って「更新」ボタンを追加
