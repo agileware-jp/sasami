@@ -40,33 +40,6 @@ app.command(command, async ({ command, ack, client }) => {
     }
 });
 
-// 履歴のプルダウンを選択したときに発火
-// app.action("update_button", async ({ ack, body, client }) => {
-//     await ack(); // リクエストの確認
-//     console.log("select box　が更新");
-//     try {
-//         // emailの取得
-//         const userInfo = await client.users.profile.get({ user: body.user.id });
-//         const email = userInfo.profile?.email;
-//         // 選択された値をviewに反映
-//         const actionBody = body as any;
-//         const selectedValue = actionBody.actions[0].selected_option.value;
-//         console.log(actionBody, selectedValue);
-//         const selectedExpense = JSON.parse(selectedValue); // JSONをパース
-//         console.log(selectedExpense);
-//         const { view } = await getViewsOpenArguments(email, selectedExpense);
-
-//         // フォームを更新
-//         await client.views.update({
-//             view_id: actionBody.view.id,
-//             hash: actionBody.view.hash,
-//             view: view,
-//         });
-//     } catch (error) {
-//         console.error(error);
-//     }
-// });
-
 app.action("update_button", async ({ ack, body, client }) => {
     await ack();
     try {
