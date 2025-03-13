@@ -15,7 +15,12 @@ const app = new App({
     port: Number(process.env.PORT) || 3000,
 });
 
-app.command("/kincone", async ({ command, ack, client }) => {
+/**
+ * 本番環境では`/kincone`, 開発環境では`/kincone_dev`がコマンドとなる。
+ */
+const command = process.env.NODE_ENV === "production" ? "/kincone" : "/kincone_dev";
+
+app.command(command, async ({ command, ack, client }) => {
     await ack();
 
     try {
