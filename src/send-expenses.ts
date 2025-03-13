@@ -62,14 +62,16 @@ const sendExpenses = async ({
         "Content-Type": "application/json",
     };
 
-    axios
-        .post(url, data, { headers })
-        .then((response) => {
-            console.log("✅ 成功:", response.data);
-        })
-        .catch((error) => {
-            console.error("❌ エラー:", error.response?.data ?? error.message);
-        });
+    try {
+        const response = await axios.post(url, data, { headers });
+        return { success: true, data: response.data };
+    } catch (error) {
+        console.error("❌ APIエラー:", error.response ? error.response.data : error.message);
+        return {
+            success: false,
+            error: error.response ? error.response.data : error.message,
+        };
+    }
 };
 
 const separateText = (inputText: string) => {
