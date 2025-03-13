@@ -45,3 +45,18 @@ export async function getExpenseByEmail(email: string) {
         // process.exit(1);
     }
 }
+
+export async function getExpenseById(id: number) {
+    try {
+        const kinconeExpense = await prisma.kinconeExpense.findUnique({
+            where: {
+                id: id,
+            },
+        });
+        return kinconeExpense;
+    } catch (error) {
+        console.error(error);
+        return null;
+        // process.exit(1);
+    }
+}
