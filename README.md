@@ -49,6 +49,12 @@ npm install
 
 開発用の環境では、`.env`ファイルに次の環境変数を指定してください。本番環境ではデプロイ先の環境変数を直接設定してください。
 
+それぞれの環境変数の意味は次のとおりです。
+- `SLACK_SIGNING_SECRET` ... SlackアプリのSigning Secret（[参考2-1](https://qiita.com/tomomi_slack/items/21fedcc6ce07aa44a670)）
+- `SLACK_BOT_TOKEN` ... SlackアプリのOauthトークン（[参考2-1](https://qiita.com/tomomi_slack/items/21fedcc6ce07aa44a670)）。`xoxb-`から始まる。
+- `SLACK_APP_TOKEN` ... SlackアプリのSocket ModeのためのApp Levelトークン（[参考2-2](https://qiita.com/seratch/items/1a460c08c3e245b56441)）。`xapp-`から始まる。
+- `KINCONE_TOKEN` ... キンコンAPIのトークン（[参考1-1](https://support.kincone.com/hc/ja/articles/4411890251801-%E3%82%AD%E3%83%B3%E3%82%B3%E3%83%B3-API%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3)）。
+- `DATABASE_URL`...データベースのURL。
 
 [設定例]
 ```
@@ -58,6 +64,11 @@ SLACK_APP_TOKEN=xapp-zzzzz
 KINCONE_TOKEN=wwwww
 DATABASE_URL="postgresql://aaaaa@bbbbb:ccccc/ddddd"
 ```
+
+## 5. 起動（開発環境）
+
+
+```npm start```
 
 # Slack側の操作手順
 
