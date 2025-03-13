@@ -45,3 +45,39 @@ export async function getExpenseByEmail(email: string) {
         // process.exit(1);
     }
 }
+
+// id情報をもとに、データを取得
+export async function getExpenseById(id: number) {
+    try {
+        const kinconeExpense = await prisma.kinconeExpense.findUnique({
+            where: {
+                id: id,
+            },
+        });
+        return kinconeExpense;
+    } catch (error) {
+        console.error(error);
+        return null;
+        // process.exit(1);
+    }
+}
+
+// 最新の履歴を10個取得する
+export async function getHistories(email: string, amount: number) {
+    try {
+        const kinconeExpenses = await prisma.kinconeExpense.findMany({
+            where: {
+                email: email,
+            },
+            orderBy: {
+                createdAt: "desc",
+            },
+            take: amount,
+        });
+        return kinconeExpenses;
+    } catch (error) {
+        console.error(error);
+        return null;
+        // process.exit(1);
+    }
+}

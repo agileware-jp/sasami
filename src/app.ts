@@ -2,7 +2,7 @@ import { App } from "@slack/bolt";
 import dotenv from "dotenv";
 import sendExpenses from "./send-expenses";
 import { getViewsOpenArguments } from "./views-open-args";
-import { createExpense } from "./utils/db/crud";
+import { createExpense, getExpenseByEmail, getExpenseById } from "./utils/db/crud";
 import { validateHalfWidthNumbers } from "./utils/validationNumber";
 
 dotenv.config();
@@ -29,7 +29,35 @@ app.command(command, async ({ command, ack, client }) => {
         // ユーザー情報を取得
         const userInfo = await client.users.profile.get({ user: command.user_id });
         const email = userInfo.profile?.email;
-        await client.views.open(await getViewsOpenArguments(command.trigger_id, email));
+        const data = await getExpenseByEmail(email);
+        const { view } = await getViewsOpenArguments(email, data);
+        await client.views.open({
+            trigger_id: command.trigger_id,
+            view: view,
+        });
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+app.action("update_button", async ({ ack, body, client }) => {
+    await ack();
+    try {
+        // emailの取得
+        const userInfo = await client.users.profile.get({ user: body.user.id });
+        const email = userInfo.profile?.email;
+
+        // 選択された履歴やフォームデータを取得（action_body など）
+        const actionBody = body as any;
+        const selectedValue = actionBody.view.state.values["history_block"]["history_select"]["selected_option"].value;
+        const selectedData = await getExpenseById(Number(selectedValue));
+        const { view } = await getViewsOpenArguments(email, selectedData);
+
+        // フォームを更新
+        await client.views.push({
+            trigger_id: actionBody.trigger_id,
+            view: view,
+        });
     } catch (error) {
         console.error(error);
     }
