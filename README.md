@@ -32,6 +32,10 @@ Slackのアプリケーション設定画面から「OAuth & Permissions」 > �
 - `chat:write.public`
 - `commands`
 
+### 2-2. スラッシュコマンドの登録
+
+Slack Appの設定画面の左部分から、「Slash Commands」を選択し、Nameを「`/kincone`」としたコマンドを追加してください。
+
 ### 参考
 
 - 2-1（Slackのアプリケーション作成）: https://qiita.com/tomomi_slack/items/21fedcc6ce07aa44a670 
