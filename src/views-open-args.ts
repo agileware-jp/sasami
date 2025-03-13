@@ -27,7 +27,7 @@ export const getViewsOpenArguments = async (email: string, data: dataType | null
         history?.map((entry) => ({
             text: {
                 type: "plain_text",
-                text: `${entry.usageDate} - ${entry.departureLocation} → ${entry.targetLocation}`,
+                text: `${entry.usageDate.toISOString().slice(0, 10)} - ${entry.departureLocation} → ${entry.targetLocation}`,
             },
             value: String(entry.id),
         })) ?? [];
