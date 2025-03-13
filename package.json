@@ -2,6 +2,7 @@
     "name": "sasami",
     "version": "1.0.0",
     "main": "index.js",
+    "type": "module",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "npm run build && npm run serve",
@@ -16,6 +17,7 @@
     "license": "ISC",
     "description": "",
     "dependencies": {
+        "@prisma/client": "^6.4.1",
         "@slack/bolt": "^4.2.1",
         "@slack/web-api": "^7.8.0",
         "axios": "^1.8.1",
@@ -33,7 +35,8 @@
         "eslint-plugin-jsdoc": "^50.6.3",
         "eslint-plugin-prettier": "^5.2.3",
         "lint-staged": "^15.4.3",
-        "prettier": "^3.5.3"
+        "prettier": "^3.5.3",
+        "prisma": "^6.4.1"
     },
     "husky": {
         "hooks": {
