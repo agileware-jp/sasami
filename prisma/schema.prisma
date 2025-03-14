@@ -8,13 +8,13 @@ datasource db {
 }
 
 model KinconeExpense {
-  id        Int      @id @default(autoincrement())
-  email     String   @db.VarChar(255)
-  date      DateTime @db.Date
-  timeStamp DateTime @default(now())
-  in        String?  @db.VarChar(255)
-  out       String?  @db.VarChar(255)
-  type      Int
-  note      String?
-  expense   Int
+  id                Int      @id @default(autoincrement())
+  email             String   @db.VarChar(255)
+  usageDate         DateTime @db.Date
+  createdAt         DateTime @default(now())
+  departureLocation String?  @db.VarChar(255)
+  targetLocation    String?  @db.VarChar(255)
+  type              Int
+  note              String?
+  expense           Int
 }

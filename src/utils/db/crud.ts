@@ -1,16 +1,21 @@
+import { KinconeExpense } from "kinconeExpense";
 import prisma from "./prisma";
 
-export async function create_expense(email: string, inStation: string, outStation: string, type: number, note: string, expense: number) {
+/**
+ * 引数の情報にしたがって交通費情報をキンコンへポストする関数
+ * @param kinkoneExpense 登録する交通費情報
+ */
+export async function createExpense(kinkoneExpense: KinconeExpense) {
     try {
         const newExpense = await prisma.kinconeExpense.create({
             data: {
-                email: email,
-                date: new Date(),
-                in: inStation,
-                out: outStation,
-                type: type,
-                note: note,
-                expense: expense,
+                email: kinkoneExpense.email,
+                usageDate: new Date(),
+                departureLocation: kinkoneExpense.inStation,
+                targetLocation: kinkoneExpense.outStation,
+                type: kinkoneExpense.type,
+                note: kinkoneExpense.note,
+                expense: kinkoneExpense.expense,
             },
         });
     } catch (error) {
@@ -19,23 +24,60 @@ export async function create_expense(email: string, inStation: string, outStatio
     }
 }
 
-
 /**
  * 引数のメールアドレスと一致する支出のうち、最新のものを返す
  * @param email 検索対象のメールアドレス
  */
-export async function get_expense_by_email(email: string) {
+export async function getExpenseByEmail(email: string) {
     try {
         const latestKinconeExpense = await prisma.kinconeExpense.findFirst({
             where: {
-              email: email,
+                email: email,
             },
             orderBy: {
-              timeStamp: 'desc',
+                createdAt: "desc",
             },
         });
+        return latestKinconeExpense;
     } catch (error) {
         console.error(error);
+        return null;
+        // process.exit(1);
+    }
+}
+
+// id情報をもとに、データを取得
+export async function getExpenseById(id: number) {
+    try {
+        const kinconeExpense = await prisma.kinconeExpense.findUnique({
+            where: {
+                id: id,
+            },
+        });
+        return kinconeExpense;
+    } catch (error) {
+        console.error(error);
+        return null;
+        // process.exit(1);
+    }
+}
+
+// 最新の履歴を10個取得する
+export async function getHistories(email: string, amount: number) {
+    try {
+        const kinconeExpenses = await prisma.kinconeExpense.findMany({
+            where: {
+                email: email,
+            },
+            orderBy: {
+                createdAt: "desc",
+            },
+            take: amount,
+        });
+        return kinconeExpenses;
+    } catch (error) {
+        console.error(error);
+        return null;
         // process.exit(1);
     }
 }
