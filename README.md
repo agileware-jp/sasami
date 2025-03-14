@@ -54,6 +54,7 @@ Slackのアプリケーション設定画面から「OAuth & Permissions」 > �
 - `chat:write`
 - `chat:write.public`
 - `commands`
+- `users.profile:read`
 
 ### 2-2. スラッシュコマンドの登録
 
