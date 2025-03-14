@@ -1,4 +1,27 @@
-# Environment
+# 目次
+
+- [目次](#目次)
+- [環境情報](#環境情報)
+- [導入方法](#導入方法)
+  - [1. キンコンAPIのトークン取得](#1-キンコンapiのトークン取得)
+    - [参考](#参考)
+  - [2. Slackアプリの作成](#2-slackアプリの作成)
+    - [2-1. 権限設定 \& 導入](#2-1-権限設定--導入)
+    - [2-2. スラッシュコマンドの登録](#2-2-スラッシュコマンドの登録)
+    - [参考](#参考-1)
+  - [3. Nodeモジュールのインストール](#3-nodeモジュールのインストール)
+  - [4. 環境変数の追加](#4-環境変数の追加)
+  - [5. 起動（開発環境）](#5-起動開発環境)
+- [Slack側の操作手順](#slack側の操作手順)
+- [本番環境情報](#本番環境情報)
+  - [ダッシュボード](#ダッシュボード)
+  - [デプロイ方法](#デプロイ方法)
+  - [DB](#db)
+  - [参考](#参考-2)
+
+
+
+# 環境情報
 
 - Node.js: v22.14.0
 - npm: v10.9.2
@@ -59,6 +82,7 @@ npm install
 - `SLACK_APP_TOKEN` ... SlackアプリのSocket ModeのためのApp Levelトークン（[参考2-2](https://qiita.com/seratch/items/1a460c08c3e245b56441)）。`xapp-`から始まる。
 - `KINCONE_TOKEN` ... キンコンAPIのトークン（[参考1-1](https://support.kincone.com/hc/ja/articles/4411890251801-%E3%82%AD%E3%83%B3%E3%82%B3%E3%83%B3-API%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3)）。
 - `DATABASE_URL`...データベースのURL。
+- `NODE_ENV` ... `production`または`development`。この環境変数の値が`production`のときに限り、Slackのコマンドが本番環境のものとなる。
 
 [設定例]
 ```
@@ -67,6 +91,7 @@ SLACK_BOT_TOKEN=xoxb-yyyyy
 SLACK_APP_TOKEN=xapp-zzzzz
 KINCONE_TOKEN=wwwww
 DATABASE_URL="postgresql://aaaaa@bbbbb:ccccc/ddddd"
+NODE_ENV=development
 ```
 
 ## 5. 起動（開発環境）
@@ -79,3 +104,47 @@ DATABASE_URL="postgresql://aaaaa@bbbbb:ccccc/ddddd"
 1. チャンネルにてコマンド「`/kincone`」を打つ。
 2. フォームに必要事項を入力し、送信。
 3. 送信後、Botから入力内容と、キンコンの確認画面へのリンクが送信されるため、必要に応じて確認する。
+
+ # 本番環境情報
+
+本番環境にはHerokuを利用しています。
+
+## ダッシュボード
+
+https://dashboard.heroku.com/apps/sasami
+
+## デプロイ方法
+
+[Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)を用いた方法を示します。
+
+1. [ワークスペース](https://dashboard.heroku.com/apps/sasami)にアクセスする権限を持ったアカウントで次のコマンドを実行し、Herokuにログインする
+
+```shell
+heroku login
+```
+
+2. ローカルリポジトリにリモートを追加する
+
+```shell
+heroku git:remote -a sasami
+```
+
+3. Herokuへのデプロイ
+
+```shell
+git push heroku main
+```
+
+
+## DB
+
+
+
+
+## 参考
+
+- Herokuへのデプロイ方法: https://devcenter.heroku.com/ja/articles/git
+ 
+
+
+
