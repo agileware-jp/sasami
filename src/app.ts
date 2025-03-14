@@ -18,7 +18,7 @@ const app = new App({
 });
 
 /**
- * 本番環境では`/kincone`, 開発環境では`/kincone_dev`がコマンドとなる。
+ * 本番環境では`/sasami`, 開発環境では`/sasami_dev`がコマンドとなる。
  */
 const command = process.env.NODE_ENV === "production" ? "/sasami" : "/sasami_dev";
 
