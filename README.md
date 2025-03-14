@@ -25,6 +25,7 @@
 
 - Node.js: v22.14.0
 - npm: v10.9.2
+- PostgreSQL: v17
 
 # 導入方法
 
@@ -139,12 +140,12 @@ git push heroku main
 
 ## DB
 
-
-
+Herokuのアドオンを利用しています（[参考2](https://jp.heroku.com/postgres)）。
 
 ## 参考
 
 - Herokuへのデプロイ方法: https://devcenter.heroku.com/ja/articles/git
+- Heroku Postgres (アドオン): https://jp.heroku.com/postgres
  
 
 
