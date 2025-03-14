@@ -141,7 +141,7 @@ export const getViewsOpenArguments = async (email: string, data: dataType | null
                 initial_value: data?.note ?? "",
                 placeholder: { type: "plain_text", text: "訪問先/備考" },
             },
-            optional: true
+            optional: true,
         },
         {
             type: "input",
