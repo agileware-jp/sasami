@@ -20,7 +20,7 @@ const app = new App({
 /**
  * 本番環境では`/kincone`, 開発環境では`/kincone_dev`がコマンドとなる。
  */
-const command = process.env.NODE_ENV === "production" ? "/kincone" : "/kincone_dev";
+const command = process.env.NODE_ENV === "production" ? "/sasami" : "/sasami_dev";
 
 app.command(command, async ({ command, ack, client }) => {
     await ack();
@@ -54,10 +54,26 @@ app.action("update_button", async ({ ack, body, client }) => {
         const { view } = await getViewsOpenArguments(email, selectedData);
 
         // フォームを更新
-        await client.views.push({
-            trigger_id: actionBody.trigger_id,
+        await client.views.update({
+            view_id: actionBody.view.id,
             view: view,
         });
+
+        // await client.views.update({
+        //     view_id: actionBody.view.id, // 元のフォームの view_id
+        //     view: {
+        //         type: "modal",
+        //         title: {
+        //             type: "plain_text",
+        //             text: "Loading...",
+        //         },
+        //         close: {
+        //             type: "plain_text",
+        //             text: "Close",
+        //         },
+        //         blocks: [],
+        //     },
+        // });
     } catch (error) {
         console.error(error);
     }
@@ -72,7 +88,7 @@ app.view("kincone_form", async ({ ack, body, view, client }) => {
     const translation = stateValues.translation?.transportation_select?.selected_option.value;
     const inStation = stateValues.in_station?.in_station?.value;
     const outStation = stateValues.out_station?.out_station?.value;
-    const remarks = stateValues.remarks?.remarks?.value;
+    const remarks = stateValues.remarks?.remarks?.value ?? "";
     const expense = stateValues.expense?.expense?.value;
     const translationLabel = stateValues.translation?.transportation_select?.selected_option.text.text;
 
