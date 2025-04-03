@@ -50,7 +50,7 @@ Slackのアプリケーション設定画面から「OAuth & Permissions」 > �
 
 ### 2-2. スラッシュコマンドの登録
 
-Slack Appの設定画面の左部分から、「Slash Commands」を選択し、Nameを「`/kincone`」としたコマンドを追加してください。
+Slack Appの設定画面の左部分から、「Slash Commands」を選択し、Nameを「`/sasami`」としたコマンドを追加してください。
 
 ### 参考
 
