@@ -11,6 +11,8 @@
     - [参考](#参考-1)
   - [3. Nodeモジュールのインストール](#3-nodeモジュールのインストール)
   - [4. 環境変数の追加](#4-環境変数の追加)
+  - [5. 起動（開発環境）](#5-起動開発環境)
+- [Slack側の操作手順](#slack側の操作手順)
 
 # 環境情報
 
@@ -55,9 +57,7 @@ Slack Appの設定画面の左部分から、「Slash Commands」を選択し、
 ### 参考
 
 - 2-1（Slackのアプリケーション作成）: https://qiita.com/tomomi_slack/items/21fedcc6ce07aa44a670 
-
 - 2-2（ソケットモードについて）: https://qiita.com/seratch/items/1a460c08c3e245b56441
-
 
 ## 3. Nodeモジュールのインストール
 
@@ -86,3 +86,13 @@ KINCONE_TOKEN=wwwww
 DATABASE_URL="postgresql://aaaaa@bbbbb:ccccc/ddddd"
 NODE_ENV=development
 ```
+
+## 5. 起動（開発環境）
+
+```npm start```
+
+# Slack側の操作手順
+
+1. チャンネルにてコマンド「`/kincone`」を打つ。
+2. フォームに必要事項を入力し、送信。
+3. 送信後、Botから入力内容と、キンコンの確認画面へのリンクが送信されるため、必要に応じて確認する。
