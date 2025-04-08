@@ -13,13 +13,6 @@
   - [4. 環境変数の追加](#4-環境変数の追加)
   - [5. 起動（開発環境）](#5-起動開発環境)
 - [Slack側の操作手順](#slack側の操作手順)
-- [本番環境情報](#本番環境情報)
-  - [ダッシュボード](#ダッシュボード)
-  - [デプロイ方法](#デプロイ方法)
-  - [DB](#db)
-  - [参考](#参考-2)
-
-
 
 # 環境情報
 
@@ -59,14 +52,12 @@ Slackのアプリケーション設定画面から「OAuth & Permissions」 > �
 
 ### 2-2. スラッシュコマンドの登録
 
-Slack Appの設定画面の左部分から、「Slash Commands」を選択し、Nameを「`/kincone`」としたコマンドを追加してください。
+Slack Appの設定画面の左部分から、「Slash Commands」を選択し、Nameを「`/sasami`」としたコマンドを追加してください。
 
 ### 参考
 
 - 2-1（Slackのアプリケーション作成）: https://qiita.com/tomomi_slack/items/21fedcc6ce07aa44a670 
-
 - 2-2（ソケットモードについて）: https://qiita.com/seratch/items/1a460c08c3e245b56441
-
 
 ## 3. Nodeモジュールのインストール
 
@@ -98,7 +89,6 @@ NODE_ENV=development
 
 ## 5. 起動（開発環境）
 
-
 ```npm start```
 
 # Slack側の操作手順
@@ -106,47 +96,3 @@ NODE_ENV=development
 1. チャンネルにてコマンド「`/kincone`」を打つ。
 2. フォームに必要事項を入力し、送信。
 3. 送信後、Botから入力内容と、キンコンの確認画面へのリンクが送信されるため、必要に応じて確認する。
-
- # 本番環境情報
-
-本番環境にはHerokuを利用しています。
-
-## ダッシュボード
-
-https://dashboard.heroku.com/apps/sasami
-
-## デプロイ方法
-
-[Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)を用いた方法を示します。
-
-1. [ワークスペース](https://dashboard.heroku.com/apps/sasami)にアクセスする権限を持ったアカウントで次のコマンドを実行し、Herokuにログインする
-
-```shell
-heroku login
-```
-
-2. ローカルリポジトリにリモートを追加する
-
-```shell
-heroku git:remote -a sasami
-```
-
-3. Herokuへのデプロイ
-
-```shell
-git push heroku main
-```
-
-
-## DB
-
-Herokuのアドオンを利用しています（[参考2](https://jp.heroku.com/postgres)）。
-
-## 参考
-
-- Herokuへのデプロイ方法: https://devcenter.heroku.com/ja/articles/git
-- Heroku Postgres (アドオン): https://jp.heroku.com/postgres
- 
-
-
-
